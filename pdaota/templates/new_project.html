@@ -1,0 +1,250 @@
+{% extends "logged_in.html" %}
+{% block title %}New Project{% endblock %}
+
+{% block content %}
+
+{% from "_formhelpers.html" import render_field %}
+
+
+
+<form method=post>
+    {{ form.hidden_tag() }}
+    {{ render_field(form.project_name) }}
+    <label for="model">Choose Statistical Model</label>
+    <select name="model" id="model">
+      <option>Select Model</option>
+      <option value="DLMM">DLMM</option>
+      <option value="dPQL">dPQL</option>
+      <option value="ODAL">ODAL</option>
+      <option value="ODAC">ODAC</option>
+      <option value="ODAP">ODAP</option>
+      <option value="ODAH">ODAH</option>
+    </select>
+
+
+    <p>Total rounds:
+    <select id="num_rounds" name="num_rounds">
+      <option>Choose number of rounds</option>
+      <option value=1>1</option>
+      <option value=2>2</option>
+      <option value=3>3</option>
+      <option value=4>4</option>
+      <option value=5>5</option>
+      <option value=6>6</option>
+      <option value=7>7</option>
+      <option value=8>8</option>
+      <option value=9>9</option>
+      <option value=10>10</option>
+    </select>
+    </p>
+
+    <div id="1chosen" style="display:none">
+      <p><input type="datetime-local" id="deadline11" name="deadline11"></p>
+  </div>
+
+    <div id="2chosen" style="display:none">
+      <p><input type="datetime-local" id="deadline21" name="deadline21"></p>
+      <p><input type="datetime-local" id="deadline22" name="deadline22"></p>
+  </div>
+
+  <div id="3chosen" style="display:none">
+    <p><input type="datetime-local" id="deadline31" name="deadline31"></p>
+    <p><input type="datetime-local" id="deadline32" name="deadline32"></p>
+    <p><input type="datetime-local" id="deadline33" name="deadline33"></p>
+</div>
+
+<div id="4chosen" style="display:none">
+  <p><input type="datetime-local" id="deadline41" name="deadline41"></p>
+  <p><input type="datetime-local" id="deadline42" name="deadline42"></p>
+  <p><input type="datetime-local" id="deadline43" name="deadline43"></p>
+  <p><input type="datetime-local" id="deadline44" name="deadline44"></p>
+</div>
+
+<div id="5chosen" style="display:none">
+  <p><input type="datetime-local" id="deadline51" name="deadline51"></p>
+  <p><input type="datetime-local" id="deadline52" name="deadline52"></p>
+  <p><input type="datetime-local" id="deadline53" name="deadline53"></p>
+  <p><input type="datetime-local" id="deadline54" name="deadline54"></p>
+  <p><input type="datetime-local" id="deadline55" name="deadline55"></p>
+</div>
+
+<div id="6chosen" style="display:none">
+  <p><input type="datetime-local" id="deadline61" name="deadline61"></p>
+  <p><input type="datetime-local" id="deadline62" name="deadline62"></p>
+  <p><input type="datetime-local" id="deadline63" name="deadline63"></p>
+  <p><input type="datetime-local" id="deadline64" name="deadline64"></p>
+  <p><input type="datetime-local" id="deadline65" name="deadline65"></p>
+  <p><input type="datetime-local" id="deadline66" name="deadline66"></p>
+</div>
+
+<div id="7chosen" style="display:none">
+  <p><input type="datetime-local" id="deadline71" name="deadline71"></p>
+  <p><input type="datetime-local" id="deadline72" name="deadline72"></p>
+  <p><input type="datetime-local" id="deadline73" name="deadline73"></p>
+  <p><input type="datetime-local" id="deadline74" name="deadline74"></p>
+  <p><input type="datetime-local" id="deadline75" name="deadline75"></p>
+  <p><input type="datetime-local" id="deadline76" name="deadline76"></p>
+  <p><input type="datetime-local" id="deadline77" name="deadline77"></p>
+</div>
+
+<div id="8chosen" style="display:none">
+  <p><input type="datetime-local" id="deadline81" name="deadline81"></p>
+  <p><input type="datetime-local" id="deadline82" name="deadline82"></p>
+  <p><input type="datetime-local" id="deadline83" name="deadline83"></p>
+  <p><input type="datetime-local" id="deadline84" name="deadline84"></p>
+  <p><input type="datetime-local" id="deadline85" name="deadline85"></p>
+  <p><input type="datetime-local" id="deadline86" name="deadline86"></p>
+  <p><input type="datetime-local" id="deadline87" name="deadline87"></p>
+  <p><input type="datetime-local" id="deadline88" name="deadline88"></p>
+</div>
+
+<div id="9chosen" style="display:none">
+  <p><input type="datetime-local" id="deadline91" name="deadline91"></p>
+  <p><input type="datetime-local" id="deadline92" name="deadline92"></p>
+  <p><input type="datetime-local" id="deadline93" name="deadline93"></p>
+  <p><input type="datetime-local" id="deadline94" name="deadline94"></p>
+  <p><input type="datetime-local" id="deadline95" name="deadline95"></p>
+  <p><input type="datetime-local" id="deadline96" name="deadline96"></p>
+  <p><input type="datetime-local" id="deadline97" name="deadline97"></p>
+  <p><input type="datetime-local" id="deadline98" name="deadline98"></p>
+  <p><input type="datetime-local" id="deadline99" name="deadline99"></p>
+</div>
+
+<div id="10chosen" style="display:none">
+  <p><input type="datetime-local" id="deadline101" name="deadline101"></p>
+  <p><input type="datetime-local" id="deadline102" name="deadline102"></p>
+  <p><input type="datetime-local" id="deadline103" name="deadline103"></p>
+  <p><input type="datetime-local" id="deadline104" name="deadline104"></p>
+  <p><input type="datetime-local" id="deadline105" name="deadline105"></p>
+  <p><input type="datetime-local" id="deadline106" name="deadline106"></p>
+  <p><input type="datetime-local" id="deadline107" name="deadline107"></p>
+  <p><input type="datetime-local" id="deadline108" name="deadline108"></p>
+  <p><input type="datetime-local" id="deadline109" name="deadline109"></p>
+  <p><input type="datetime-local" id="deadline1010" name="deadline1010"></p>
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $('#num_rounds').on('change',function(){
+        if( $(this).val()==="1"){
+        $("#1chosen").show()
+        $("#2chosen").hide()
+        $("#3chosen").hide()
+        $("#4chosen").hide()
+        $("#5chosen").hide()
+        $("#6chosen").hide()
+        $("#7chosen").hide()
+        $("#8chosen").hide()
+        $("#9chosen").hide()
+        $("#10chosen").hide()
+        } else if( $(this).val()==="2"){
+        $("#1chosen").hide()
+        $("#2chosen").show()
+        $("#3chosen").hide()
+        $("#4chosen").hide()
+        $("#5chosen").hide()
+        $("#6chosen").hide()
+        $("#7chosen").hide()
+        $("#8chosen").hide()
+        $("#9chosen").hide()
+        $("#10chosen").hide()
+        } else if ( $(this).val()==="3"){
+        $("#1chosen").hide()
+        $("#2chosen").hide()
+        $("#3chosen").show()
+        $("#4chosen").hide()
+        $("#5chosen").hide()
+        $("#6chosen").hide()
+        $("#7chosen").hide()
+        $("#8chosen").hide()
+        $("#9chosen").hide()
+        $("#10chosen").hide()
+        } else if( $(this).val()==="4"){
+        $("#1chosen").hide()
+        $("#2chosen").hide()
+        $("#3chosen").hide()
+        $("#4chosen").show()
+        $("#5chosen").hide()
+        $("#6chosen").hide()
+        $("#7chosen").hide()
+        $("#8chosen").hide()
+        $("#9chosen").hide()
+        $("#10chosen").hide()
+        } else if ( $(this).val()==="5"){
+        $("#1chosen").hide()
+        $("#2chosen").hide()
+        $("#3chosen").hide()
+        $("#4chosen").hide()
+        $("#5chosen").show()
+        $("#6chosen").hide()
+        $("#7chosen").hide()
+        $("#8chosen").hide()
+        $("#9chosen").hide()
+        $("#10chosen").hide()
+        } else if( $(this).val()==="6"){
+        $("#1chosen").hide()
+        $("#2chosen").hide()
+        $("#3chosen").hide()
+        $("#4chosen").hide()
+        $("#5chosen").hide()
+        $("#6chosen").show()
+        $("#7chosen").hide()
+        $("#8chosen").hide()
+        $("#9chosen").hide()
+        $("#10chosen").hide()
+        } else if ( $(this).val()==="7"){
+        $("#1chosen").hide()
+        $("#2chosen").hide()
+        $("#3chosen").hide()
+        $("#4chosen").hide()
+        $("#5chosen").hide()
+        $("#6chosen").hide()
+        $("#7chosen").show()
+        $("#8chosen").hide()
+        $("#9chosen").hide()
+        $("#10chosen").hide()
+        } else if( $(this).val()==="8"){
+        $("#1chosen").hide()
+        $("#2chosen").hide()
+        $("#3chosen").hide()
+        $("#4chosen").hide()
+        $("#5chosen").hide()
+        $("#6chosen").hide()
+        $("#7chosen").hide()
+        $("#8chosen").show()
+        $("#9chosen").hide()
+        $("#10chosen").hide()
+        } else if ( $(this).val()==="9"){
+        $("#1chosen").hide()
+        $("#2chosen").hide()
+        $("#3chosen").hide()
+        $("#4chosen").hide()
+        $("#5chosen").hide()
+        $("#6chosen").hide()
+        $("#7chosen").hide()
+        $("#8chosen").hide()
+        $("#9chosen").show()
+        $("#10chosen").hide()
+        } else if ( $(this).val()==="10"){
+        $("#1chosen").hide()
+        $("#2chosen").hide()
+        $("#3chosen").hide()
+        $("#4chosen").hide()
+        $("#5chosen").hide()
+        $("#6chosen").hide()
+        $("#7chosen").hide()
+        $("#8chosen").hide()
+        $("#9chosen").hide()
+        $("#10chosen").show()
+        } 
+    });
+    </script>
+    
+  <button type="submit" class="btn btn-primary">Create New Project</button>
+  
+</form>
+
+
+
+{% endblock %}
+

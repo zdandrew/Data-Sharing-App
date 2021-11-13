@@ -1,0 +1,322 @@
+{% extends "logged_in.html" %}
+{% block title %}Project{% endblock %}
+
+{% block back_button %}
+  <a href="{{ url_for('dashboard') }}">
+    <button id="back" class="btn btn-info">
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+{% endblock %}
+
+{% block sidebar %}
+    {{ super() }}
+
+    {% if cntl_json is defined and cntl_json != None %}
+      <ul class="list-unstyled components">
+          <li>
+            <p>Step: {{ cntl_json[0]["step"][0]|string }}</p>
+          </li>
+          <li>
+            <p>Heterogeneity: {{ cntl_json[0]["heterogeneity"][0]|string }}</p>
+          </li>
+          <li>
+            <p>Model: {{ cntl_json[0]["model"][0]|string }}</p>
+          </li>
+          <li>
+            <p>Family: {{ cntl_json[0]["family"][0]|string }}</p>
+          </li>
+          <li>
+            <p>Outcome: {{ cntl_json[0]["outcome"][0]|string }}</p>
+          </li>
+          <li>
+            <p>Variables: {{ cntl_json[0]["variables"]|string }}</p>
+          </li>
+      </ul>
+    {% else %}
+      No control.json uploaded for this project.  Please upload a control file for this round to display information.
+    {% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+<!-- DEBUGGING TOOLS IF WE EVER NEED THEM AGAIN
+
+<div style="padding: 10px; border: 2px solid red;">
+  <strong>
+    <h1>DEBUGGING OUTPUT: DELETE LATER!</h1>
+    <br />
+    Site Name: {{ session['site_name'] }}
+    <br />
+    Site ID: {{ session['site_id'] }}
+    <br />
+    Is owner: {{ is_owner }}
+    <br />
+    Project Data: {{ project }}
+    <br />
+    Project Name: {{ project['name'] }}
+    <br />
+    Project Owner: {{ owner }}
+    <br />
+    Project Collaborators: {{ collabs }}
+    <br />
+    {% if files[project['rounds_completed']] is defined and files[project['rounds_completed']]|length %}
+      files: {{ cntl_json[0] }}
+    {% else %}
+      files not defined
+    {% endif %} 
+  </strong>
+</div>
+
+-->
+
+<h1>Project: {{ project['name'] }}</h1>
+<h2>This project has completed <b>{{ project['rounds_completed'] }}</b> rounds out of a total of <b>{{ project['total_rounds'] }}</b>.</h2>
+
+{% if project['rounds_completed'] < project['total_rounds'] and is_owner %}
+<br/>
+
+<h2>You selected <b>{{ project['model'] }}</b> as the statistical algorithm.  Please make sure that the model in your control.json file matches this algorithm.</h2>
+
+<br/>
+<br/>
+ 
+<div style="padding: 10px; border: 2px solid;">
+<h2>Please enter the collaborators you would like to invite</h2>
+<p>Note: you must delimit the email addresses with commas</p>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>
+            $(function() {
+              $('a#send-email').on('click', function(e) {
+                e.preventDefault()
+
+                var request = new XMLHttpRequest();
+                request.onload = function() {
+                    // We could do more interesting things with the response
+                    // or, we could ignore it entirely
+                    alert(request.responseText);
+                };
+
+                recipients_raw = $('#emails').val();
+                recipients_joined = recipients_raw.split(" ").join("")
+
+                if (recipients_joined == "")
+                {
+                  alert("No recipients entered!")
+                }
+                else
+                {
+                  the_url = "{{ url_for('send_invitation_email', recipients='RECIPIENTS_PH', lead_site=session['site_name'], project=project['name'], join_code=project['code'] ) }}".replace("RECIPIENTS_PH",recipients_joined)
+
+                  // We point the request at the appropriate command
+                  request.open("GET", the_url, true);
+                  // and then we send it off
+                  request.send();
+                }
+              });
+            });
+    </script>
+
+    <input id="emails" placeholder="john.doe@example.edu,jane.doe@example.edu" size="100">
+    <br/>
+    <br/>
+
+    <a id="send-email" href="">
+        <button  class="btn btn-info">
+            <i class="fas fa-envelope-square"></i> Send Invitations
+        </button>
+    </a>
+  </div>
+
+<br/>
+{% endif %}
+
+{% if project['rounds_completed'] < project['total_rounds'] and is_owner %} 
+<p>
+<button id="{{project['_id']|string}}" class="btn btn-info">
+  <a href="">
+    Next round
+  </a>
+</button>
+</p>
+<script>
+  document.getElementById("{{project['_id']|string}}").addEventListener('click', function (event) {
+    event.preventDefault();
+    if (window.confirm("Proceed to the next round? \nNote: action cannot be undone.")) {
+      window.location.href = "{{ url_for('next_round', project_id=project['_id']|string) }}";
+    }
+  });
+</script>
+
+{% endif %}
+</h2>
+
+{% if project['rounds_completed'] < project['total_rounds'] %} 
+<h3>Next Upload Deadline: {{ next_deadline }} (EST) </h3>
+{% endif %}
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Site</th>
+      <th scope="col">Uploaded?</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <!-- site name -->
+      <td>
+        <a class="link" href="{{ url_for('site', owner_id=owner['_id']|string, project_id=project['_id']|string )}}"> {{
+          owner['name'] }} (Lead Site) <a>
+      </td>
+      </td>
+      <!-- uploaded -->
+      <td>
+        {% if owner['_id'] in project['uploaded']  %}
+          <i class="fas fa-check"></i>
+        {% else %}
+          <i class="fas fa-times"></i>
+        {% endif %}
+      </td>
+      <td>
+      </td>
+    </tr>
+
+    {% for site in collabs %}
+
+    <tr>
+      <!-- site name -->
+      <td>
+        <a class="link" href="{{ url_for('site',  owner_id=site['_id']|string, project_id=project['_id']|string  ) }}">
+          {{ site['name'] }} <a>
+      </td>
+      <!-- uploaded -->
+      <td>
+        {% if site['_id'] in project['uploaded'] %}
+          <i class="fas fa-check"></i>
+        {% else %}
+          <i class="fas fa-times"></i>
+        {% endif %}
+      </td>
+        <td>
+          {% if is_owner %}
+            <button id="{{site['_id']|string}}" class="btn btn-info">
+                <a href="">
+                    <i class="fas fa-trash-alt"></i> Kick Site
+                </a>
+            </button>
+
+            <script>
+            document.getElementById("{{site['_id']|string}}").addEventListener('click', function(e) {
+                e.preventDefault();
+                if (window.confirm("Do you really want to kick this site?")) {
+                    window.location = "{{ url_for('kick_site', project_id=project['_id']|string, site_id = site['_id']|string) }}";
+                }
+            });
+            </script>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Control File</th>
+      <th scope="col">Round</th>
+      <th scope="col">Date Uploaded</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for file in files %}
+    <tr>
+      <td>
+        <button class="btn btn-info">
+          <a href="{{ url_for('download',  project_id=file['project']|string, file_id=file['_id']|string  ) }}">
+            <i class="fas fa-download"></i> {{file.filename}}
+          </a>
+        </button>
+
+      </td>
+      <td>
+        {{ file.round + 1 }}
+      </td>
+      <td>
+        {{ file.date }} (EST)
+      </td>
+      <td>
+        {% if (file.round == project['rounds_completed'] and is_user) or is_leading %}
+        <button id="{{file['_id']|string}}" class="btn btn-info">
+          <a href="">
+            <i class="fas fa-trash-alt"></i> Delete File
+          </a>
+        </button>
+
+        <script>
+          document.getElementById("{{file['_id']|string}}").addEventListener('click', function (event) {
+            event.preventDefault();
+            if (window.confirm("Do you really want to delete this file?")) {
+              window.location.href = "{{ url_for('delete_file', file_id=file['_id']|string, owner_id=owner_id, project_id=project['_id']|string ) }}";
+            }
+          });
+        </script>
+        {% endif %}
+      </td>
+    </tr>
+
+    {% endfor %}
+
+  </tbody>
+</table>
+
+{% if is_owner %}
+<form method="POST" action="{{ url_for('upload_control', project_id=project['_id'] ) }}" enctype="multipart/form-data">
+  <p>
+    <p><input id="uploaded-file" type="file" name="inputFile" accept=".json"></p>
+  </p>
+  <p>
+    <!-- 
+          RATHER THAN HAVE A STANDARD HTML SUBMIT BUTTON, I'VE
+          CHOSEN TO IMPLEMENT A CUSTOM BUTTON THAT DOES THE SAME
+          JOB, BUT LOOKS A BIT NICER
+           -->
+    <button id="upload-control" class="btn btn-info">
+      <a onclick="">
+        <i class="fas fa-upload"></i> Upload Control.json
+      </a>
+    </button>
+  </p>
+  <script>
+    document.getElementById("upload-control").addEventListener('click', function (event) {
+      event.preventDefault();
+      if(document.getElementById("uploaded-file").value != "") {
+        this.form.submit();
+      }
+      else
+      {
+        alert("You do not have a file selected!")
+      }
+    });
+  </script>
+
+</form>
+{% endif %}
+
+<h2>
+  Instruction for collaborative sites:
+</h2>
+
+<ul>
+  <li> When Uploads for all sites are the same, click on your site to upload data for the next step. </li>
+  <li> You may be excluded from this project if you fail to upload data by the next upload deadline. Please comply to
+    the schedule for a high-quality collaboration. </li>
+</ul>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "logged_in.html" %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+<div class="text-center">
+  <h1>404: Page Not Found</h1>
+  <p>You step in the stream</p>
+<p>but the water has moved on</p>
+<p><a class="link" href="{{ url_for('login') }}">This page is not here</a></p>
+ </div>
+{% endblock %}

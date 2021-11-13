@@ -1,0 +1,1 @@
+{"project_name": ["OUD study"], "step": ["initialize"], "sites": ["site1", "site2", "site3"], "heterogeneity": [false], "model": ["ODAL"], "family": ["binomial"], "outcome": ["diagnosis_OUD"], "variables": ["age", "sex", "BMI", "Depression", "Alcohol_use_disorders"], "optim_maxit": [100], "lead_site": ["site1"], "upload_date": ["2021-06-18 09:49:38"]}

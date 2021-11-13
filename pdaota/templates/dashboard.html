@@ -1,0 +1,171 @@
+{% extends "logged_in.html" %}
+
+<!-- This is the block containing title information -->
+{% block title %}
+
+    Dashboard
+
+{% endblock %}
+
+<!-- This is the block that "activates" the dashboard element
+     on the sidebar -->
+{% block active_dash %}
+
+    active
+
+{% endblock %}
+
+{% block content %}
+
+<!--
+<div style="padding: 10px; border: 2px solid red;">
+    <h1>DEBUGGING OUTPUT: DELETE LATER!</h1>
+        <br/>
+        Site Name: {{ session['site_name'] }}
+        <br/>
+        Owned projects: {{ owned }} 
+        <br/>
+        Joined projects: {{ joined }} 
+        <br/>
+        <span id='test'></span>
+    </strong>
+</div>
+-->
+
+  <h1> Representing: {{ session['site_name'] }} </h1>
+  </br>
+
+  <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Project Name</th>
+          <th scope="col">Creation Date</th>
+          <!-- current progress (i.e. "how many sites have finished uploading") -->
+          <th scope="col">Sites uploaded (*)</th>
+          <!-- status (i.e. "how many rounds have been completed") -->
+          <th scope="col">Rounds completed (**)</th>
+          <th scope="col">Lead Site</th>
+          <th scope="col">Join Code</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td colspan="7"><h2>Owned Projects</h2></td>
+        </tr>
+
+        <tr>
+            <td colspan="7">
+                <button id="new-project" class="btn btn-info">
+                    <a href="{{ url_for('new_project' ) }}">
+                        <i class="fas fa-plus"></i> New Project
+                    </a>
+                </button>
+            </td>
+        </tr>
+
+        {% for project in owned %}
+
+        <tr>
+            <!-- project name -->
+            <td>
+                <a class="link" href="{{ url_for('project', project_id=project['_id']|string ) }}"> {{ project["name"] }} <a> 
+            </td>
+            <!-- creation date -->
+            <td>
+                {{ project["date_created"] }}
+            </td>
+            <!-- current progress (i.e. "how many sites have finished uploading") -->
+            <td>
+                {% if project['rounds_completed'] < project['total_rounds'] %} 
+                {{ project["uploaded"] | length }}/{{ (project["collaborating_sites"] | length) + 1 }}
+                {% else %}
+                All rounds completed.
+                {% endif %}
+            </td>
+            <!-- status (i.e. "how many rounds have been completed") -->
+            <td>
+                {{ project['rounds_completed'] }}/{{ project['total_rounds'] }}
+            </td>
+            <!-- leading site -->
+            <td>
+                {{ project["owner_name"] }}
+            </td>
+            <!-- join code -->
+            <td>
+                {{ project["code"] }}
+            </td>
+            <!-- delete project -->
+            <td>
+                <button id="{{project['_id']|string}}" class="btn btn-info">
+                    <a href="">
+                        <i class="fas fa-trash-alt"></i> Delete Project
+                    </a>
+                </button>
+
+                <script>
+
+                document.getElementById("{{project['_id']|string}}").addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.confirm("Do you really want to delete this project?")) {
+                        window.location.href = "{{ url_for('delete_project', project_id=project['_id']|string) }}";
+                    }
+                });
+                </script>
+            </td>
+        </tr>
+        {% endfor %}
+
+        <tr>
+            <td colspan="7"><h2>Joined Projects</h2></td>
+        </tr>
+
+        <tr>
+            <td colspan="7">
+                <button id="join-project" class="btn btn-info">
+                    <a href="{{ url_for('join_project' ) }}">
+                        <i class="fas fa-plus"></i> Join Project
+                    </a>
+                </button>
+            </td>
+        </tr>
+
+        {% for project in joined %}
+        <tr>
+            <!-- project name -->
+            <td>
+                <a class="link" href="{{ url_for('project', project_id=project['_id']|string ) }}"> {{ project["name"] }} <a> 
+            </td>
+            <!-- creation date -->
+            <td>
+                {{ project["date_created"] }}
+            </td>
+            <!-- current progress -->
+            <td>
+                {{ project["uploaded"] | length }}/{{ (project["collaborating_sites"] | length) + 1 }}
+            </td>
+            <!-- status -->
+            <td>
+                {{ project['rounds_completed'] }}/{{ project['total_rounds'] }}
+            </td>
+            <!-- leading site -->
+            <td>
+                {{ project["owner_name"] }}
+            </td>
+            <!-- join code -->
+            <td>
+                <!-- INTENTIONALLY BLANK: YOU SHOULD NOT BE ABLE TO SEE CODE FOR PROJECT YOU DO NOT OWN -->
+            </td>
+            <!-- delete project -->
+            <td>
+                <!-- INTENTIONALLY BLANK: YOU CANNOT DELETE A PROJECT YOU DO NOT OWN -->
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>(*) Sites uploaded - how many sites have finished uploading (for the current round)</p>
+    <p>(**) Rounds completed - how many rounds have been completed</p>
+
+{% endblock %}

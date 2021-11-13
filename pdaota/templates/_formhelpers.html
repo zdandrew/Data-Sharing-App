@@ -1,0 +1,22 @@
+{% macro render_field(field) %}
+
+<div class="form-group">
+    {% if field.type != 'HiddenField' %}
+        <label for="{{ field.id }}">{{ field.label }}</label>
+        <br/>
+       {% if field.type == 'StringField' %}
+          {{ field(size=200, **kwargs) }}
+       {% else %}
+          {{ field(**kwargs) }}
+       {% endif %}
+    {% endif %}
+  
+  {% if field.errors %}
+    <ul class=errors>
+    {% for error in field.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endmacro %}
