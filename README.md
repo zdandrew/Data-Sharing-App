@@ -2,18 +2,6 @@
 
 ## Over-the-air file sharing for Privacy Preserving Distributed Algorithms by the PennCil Lab at UPenn
 
-Rest API using Flask and mongodb.
-
-Done: 
-
-Andrew -
-User authentication, group/project creation, adding members to groups/projects, uploading files, downloading files.
-
-Hai-Shuo -
-Split files into chunks.
-
-To-do: Polish frontend, improve security measures for joining groups, encryption
-
 PDA-OTA python file directory and documentation:
 
 run.py – this is our main function.  It is deliberately very small and short, making it very easy for us to make specific changes to the run functionality of the code.  In this case, we must remember to remove the DEBUG statement from this file when it is time to put this into full production – we do not want a debug setting active on production servers!
