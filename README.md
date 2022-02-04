@@ -1,6 +1,5 @@
-# pda-ota
 
-## Over-the-air file sharing for Privacy Preserving Distributed Algorithms by the PennCil Lab at UPenn
+## Over-the-air file sharing for Federated Learning Algorithms
 
 PDA-OTA python file directory and documentation:
 
